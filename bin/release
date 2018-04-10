@@ -5,5 +5,5 @@ cat <<EOF
 addons:
   []
 default_process_types:
-  web: elixir --name $MY_NODE_NAME --cookie $MY_COOKIE -S mix phoenix.server
+  web: elixir --name \$MY_NODE_NAME --cookie \$MY_COOKIE -S mix phoenix.server
 EOF
