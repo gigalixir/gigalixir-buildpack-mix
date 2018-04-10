@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+
+# do nothing. this buildpack exists only to create a default Procfile. see bin/release
