@@ -1,5 +1,15 @@
 #!/usr/bin/env bash
 
+set -e
+
+unset GIT_DIR
+
+cd $1
+mix help | grep 'mix phoenix.server'
+IS_PHOENIX=$?
+
+# detect phoenix
+if [ $IS_PHOENIX -eq 0 ]; then
 cat <<EOF
 ---
 addons:
@@ -7,3 +17,12 @@ addons:
 default_process_types:
   web: elixir --name \$MY_NODE_NAME --cookie \$MY_COOKIE -S mix phoenix.server
 EOF
+else
+cat <<EOF
+---
+addons:
+  []
+default_process_types:
+  web: elixir --name \$MY_NODE_NAME --cookie \$MY_COOKIE -S mix run --no-halt
+EOF
+fi
