@@ -1,5 +1,9 @@
 #!/usr/bin/env bash
 
+set -e
+
+unset GIT_DIR
+
 # do nothing except grab env vars. this buildpack exists only to create a default Procfile. see bin/release
 build_pack_path=$(cd $(dirname $(dirname $0)); pwd)
 env_path=$(cd $3 && pwd)
@@ -47,7 +51,6 @@ function write_export() {
   cat $build_pack_path/export
 }
 
-load_config
 export_env_vars
 export_mix_env
 
