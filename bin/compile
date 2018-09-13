@@ -1,3 +1,43 @@
 #!/usr/bin/env bash
 
-# do nothing. this buildpack exists only to create a default Procfile. see bin/release
+# do nothing except grab env vars. this buildpack exists only to create a default Procfile. see bin/release
+env_path=$(cd $3 && pwd)
+
+function output_section() {
+  local indentation="----->"
+  echo "${indentation} $1"
+}
+
+function output_line() {
+  local spacing="      "
+  echo "${spacing} $1"
+}
+
+function export_env_vars() {
+  whitelist_regex=${2:-''}
+  blacklist_regex=${3:-'^(PATH|GIT_DIR|CPATH|CPPATH|LD_PRELOAD|LIBRARY_PATH)$'}
+  if [ -d "$env_path" ]; then
+    output_section "Will export the following config vars:"
+    for e in $(ls $env_path); do
+      echo "$e" | grep -E "$whitelist_regex" | grep -vE "$blacklist_regex" &&
+      export "$e=$(cat $env_path/$e)"
+      :
+    done
+  fi
+}
+
+function export_mix_env() {
+  if [ -z "$MIX_ENV" ]; then
+    if [ -d $env_path ] && [ -f $env_path/MIX_ENV ]; then
+      export MIX_ENV=$(cat $env_path/MIX_ENV)
+    else
+      export MIX_ENV=${1:-prod}
+    fi
+  fi
+
+  output_line "* MIX_ENV=${MIX_ENV}"
+}
+
+load_config
+export_env_vars
+export_mix_env
