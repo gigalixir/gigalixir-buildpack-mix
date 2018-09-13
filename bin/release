@@ -5,20 +5,16 @@ set -e
 unset GIT_DIR
 
 # IS_PHOENIX set in compile script and exported for this
-if [ $IS_PHOENIX -eq 0 ]; then
-cat <<EOF
----
-addons:
-  []
-default_process_types:
-  web: elixir --name \$MY_NODE_NAME --cookie \$MY_COOKIE -S mix phoenix.server
-EOF
+if [ $IS_PHOENIX -eq "true" ]; then
+  MIX_CMD="phoenix.server"
 else
+  MIX_CMD="run --no-halt"
+fi
+
 cat <<EOF
 ---
 addons:
   []
 default_process_types:
-  web: elixir --name \$MY_NODE_NAME --cookie \$MY_COOKIE -S mix run --no-halt
+  web: elixir --name \$MY_NODE_NAME --cookie \$MY_COOKIE -S mix $MIX_CMD
 EOF
-fi

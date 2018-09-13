@@ -55,6 +55,10 @@ export_env_vars
 export_mix_env
 
 cd $1
-mix help | grep 'mix phoenix.server'
-IS_PHOENIX=$?
+mix help | grep 'mix phoenix.server' > /dev/null
+if [ $? -eq 0 ]; then
+  IS_PHOENIX="true"
+else
+  IS_PHOENIX="false"
+fi
 write_export $IS_PHOENIX
