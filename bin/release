@@ -4,11 +4,7 @@ set -e
 
 unset GIT_DIR
 
-cd $1
-mix help | grep 'mix phoenix.server'
-IS_PHOENIX=$?
-
-# detect phoenix
+# IS_PHOENIX set in compile script and exported for this
 if [ $IS_PHOENIX -eq 0 ]; then
 cat <<EOF
 ---
