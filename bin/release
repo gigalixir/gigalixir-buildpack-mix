@@ -5,7 +5,7 @@ set -e
 unset GIT_DIR
 
 # IS_PHOENIX set in compile script and exported for this
-if [ $IS_PHOENIX -eq "true" ]; then
+if [ "$IS_PHOENIX" = "true" ]; then
   MIX_CMD="phoenix.server"
 else
   MIX_CMD="run --no-halt"
