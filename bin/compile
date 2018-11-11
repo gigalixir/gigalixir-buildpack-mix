@@ -58,13 +58,18 @@ cd $1
 
 set +e
 # detect phx.server or phoenix.server
-mix help | grep -E 'mix ph(oeni)?x.server' > /dev/null
+mix help | grep 'mix phx.server' > /dev/null
 RESULT=$?
+if [ $RESULT -eq 0 ]; then
+  MIX_CMD="phx.server"
+else
+  mix help | grep 'mix phoenix.server' > /dev/null
+  if [ $RESULT -eq 0 ]; then
+    MIX_CMD="phoenix.server"
+  else
+    MIX_CMD="run --no-halt"
+  end
+fi
 set -e
 
-if [ $RESULT -eq 0 ]; then
-  IS_PHOENIX="true"
-else
-  IS_PHOENIX="false"
-fi
-write_export $IS_PHOENIX
+write_export $MIX_CMD
