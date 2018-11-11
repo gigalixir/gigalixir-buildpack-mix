@@ -57,7 +57,8 @@ export_mix_env
 cd $1
 
 set +e
-mix help | grep 'mix phoenix.server' > /dev/null
+# detect phx.server or phoenix.server
+mix help | grep -E 'mix ph(oeni)?x.server' > /dev/null
 RESULT=$?
 set -e
 
