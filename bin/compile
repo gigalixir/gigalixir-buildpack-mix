@@ -46,7 +46,7 @@ function export_mix_env() {
 function write_export() {
   output_section "Writing export for multi-buildpack support"
 
-  local export_line="export IS_PHOENIX=$1"
+  local export_line="export MIX_CMD=$1"
   echo $export_line > $build_pack_path/export
   cat $build_pack_path/export
 }
@@ -68,8 +68,9 @@ else
     MIX_CMD="phoenix.server"
   else
     MIX_CMD="run --no-halt"
-  end
+  fi
 fi
 set -e
 
 write_export $MIX_CMD
+
