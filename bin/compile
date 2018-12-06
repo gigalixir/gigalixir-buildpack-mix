@@ -46,7 +46,7 @@ function export_mix_env() {
 function write_export() {
   output_section "Writing export for multi-buildpack support"
 
-  local export_line="export MIX_CMD=$1"
+  local export_line="export MIX_CMD=\"$*\""
   echo $export_line > $build_pack_path/export
   cat $build_pack_path/export
 }
